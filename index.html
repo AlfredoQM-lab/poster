@@ -392,6 +392,9 @@
       border-radius: 8px;
       padding: 0.45rem 0.5rem;
       text-align: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
     }
 
     .stat-pill .k {
@@ -404,9 +407,18 @@
 
     .stat-pill .v {
       font-family: 'JetBrains Mono', monospace;
-      font-size: 0.82rem;
+      font-size: 0.84rem;
       font-weight: 700;
       color: var(--navy-900);
+    }
+
+    .stat-pill .formula {
+      display: block;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.62rem;
+      font-weight: 500;
+      color: var(--slate-500);
+      margin-top: 0.12rem;
     }
 
     .conclusion-line {
@@ -755,14 +767,17 @@
               <div class="stat-pill">
                 <span class="k">t calc</span>
                 <span class="v">${item.t}</span>
+                <span class="formula">d̄ / (Sd / √n)</span>
               </div>
               <div class="stat-pill">
                 <span class="k">t crítico</span>
                 <span class="v">${item.tCrit}</span>
+                <span class="formula">α = 0.05 · gl = 9</span>
               </div>
               <div class="stat-pill">
                 <span class="k">p-valor</span>
                 <span class="v">${item.p}</span>
+                <span class="formula">Unilateral</span>
               </div>
             </div>
             <p class="conclusion-line">${item.summary}</p>
