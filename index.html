@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Resultados Estadísticos | Mejora del Proceso de Retención Estudiantil</title>
+  <title>Resultados FlexSim | Mejora del Proceso de Retención Estudiantil</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet" />
@@ -52,7 +52,6 @@
       margin: 0 auto;
     }
 
-    /* Encabezado compacto */
     .poster-header {
       background: linear-gradient(135deg, var(--navy-900) 0%, var(--navy-800) 65%, var(--navy-700) 100%);
       color: #ffffff;
@@ -117,7 +116,6 @@
       font-family: 'JetBrains Mono', monospace;
     }
 
-    /* Barra de filtros y leyenda */
     .controls-bar {
       background: var(--bg-card);
       border: 1px solid var(--slate-200);
@@ -133,8 +131,9 @@
 
     .legend-group {
       display: flex;
+      flex-wrap: wrap;
       align-items: center;
-      gap: 1.15rem;
+      gap: 1.1rem;
       font-size: 0.8rem;
       font-weight: 600;
       color: var(--slate-700);
@@ -194,10 +193,9 @@
       color: #ffffff;
     }
 
-    /* Grid de Tarjetas */
     .cards-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(355px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(365px, 1fr));
       gap: 1.35rem;
     }
 
@@ -234,7 +232,6 @@
       background: var(--amber-500);
     }
 
-    /* Cabecera de Tarjeta */
     .card-header {
       display: flex;
       justify-content: space-between;
@@ -281,7 +278,6 @@
       color: var(--amber-700);
     }
 
-    /* Bloque de variación destacada */
     .impact-strip {
       display: flex;
       align-items: center;
@@ -290,7 +286,7 @@
       border: 1px solid #99f6e4;
       border-radius: 12px;
       padding: 0.75rem 1rem;
-      margin-bottom: 1rem;
+      margin-bottom: 0.9rem;
     }
 
     .kpi-card.neutral .impact-strip {
@@ -332,37 +328,61 @@
       color: var(--slate-500);
     }
 
-    /* Contenedor de Gráfica de Barras Moderna */
     .chart-wrapper {
       background: var(--slate-100);
       border: 1px solid var(--slate-200);
       border-radius: 12px;
-      padding: 0.85rem 0.75rem 0.55rem;
+      padding: 0.65rem 0.75rem 0.55rem;
       margin-bottom: 1rem;
     }
 
-    .bar-chart-svg {
+    .chart-toolbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 0.45rem;
+    }
+
+    .chart-caption {
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: var(--slate-500);
+    }
+
+    .mode-switch {
+      display: inline-flex;
+      background: #e2e8f0;
+      padding: 2px;
+      border-radius: 7px;
+    }
+
+    .mode-btn {
+      border: none;
+      background: transparent;
+      color: var(--slate-700);
+      font-family: 'Inter', sans-serif;
+      font-size: 0.68rem;
+      font-weight: 700;
+      padding: 0.22rem 0.5rem;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .mode-btn.active {
+      background: #ffffff;
+      color: var(--navy-900);
+      box-shadow: 0 1px 2px rgba(15, 23, 42, 0.08);
+    }
+
+    .chart-svg {
       width: 100%;
-      height: 168px;
+      height: 162px;
       display: block;
       overflow: visible;
     }
 
-    .bar-rect {
-      transform-origin: bottom;
-      animation: growBar 0.55s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-    }
-
-    @keyframes growBar {
-      from {
-        transform: scaleY(0);
-      }
-      to {
-        transform: scaleY(1);
-      }
-    }
-
-    /* Estadísticos inferiores */
     .stats-row {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -410,7 +430,7 @@
         background: #ffffff;
         padding: 0;
       }
-      .filter-controls {
+      .filter-controls, .mode-switch {
         display: none;
       }
       .kpi-card {
@@ -424,12 +444,12 @@
   <main class="poster-container">
     <header class="poster-header">
       <div>
-        <div class="header-kicker">PUCP · Mejora de Procesos (1IND55) · Grupo 28</div>
-        <h1 class="poster-title">Validación Estadística: Escenario AS-IS vs. Propuesta TO-BE</h1>
+        <div class="header-kicker">PUCP · Mejora de Procesos (1IND55) · Grupo 28 · FlexSim</div>
+        <h1 class="poster-title">Validación por Réplicas de Simulación: AS-IS vs. TO-BE</h1>
       </div>
       <div class="header-meta-box">
+        <span class="meta-tag">FlexSim · n = 10 réplicas</span>
         <span class="meta-tag">Prueba t-pareada</span>
-        <span class="meta-tag">n = 10 réplicas</span>
         <span class="meta-tag">α = 0.05 (t₀ = 1.833)</span>
       </div>
     </header>
@@ -457,83 +477,207 @@
         title: "Tasa de Deserción Intra-Ciclo",
         status: "significant",
         badge: "Significativo",
-        asis: 13.85,
-        tobe: 9.46,
-        diff: 4.39,
+        asisMean: 13.85,
+        tobeMean: 9.46,
+        diffMean: 4.39,
         sd: 0.088,
         rel: "-31.7%",
         t: "158.55",
         p: "4.02e-17",
-        summary: "Se rechaza H₀: reducción sostenida de deserción dentro del ciclo académico."
+        summary: "Se rechaza H₀: TO-BE se mantiene por debajo de AS-IS en las 10 réplicas.",
+        replicas: [
+          { r: 1, asis: 13.9, tobe: 9.5, diff: 4.4 },
+          { r: 2, asis: 13.7, tobe: 9.4, diff: 4.3 },
+          { r: 3, asis: 14.1, tobe: 9.6, diff: 4.5 },
+          { r: 4, asis: 13.6, tobe: 9.3, diff: 4.3 },
+          { r: 5, asis: 14.0, tobe: 9.5, diff: 4.5 },
+          { r: 6, asis: 13.8, tobe: 9.4, diff: 4.4 },
+          { r: 7, asis: 13.9, tobe: 9.6, diff: 4.3 },
+          { r: 8, asis: 13.7, tobe: 9.3, diff: 4.4 },
+          { r: 9, asis: 14.0, tobe: 9.5, diff: 4.5 },
+          { r: 10, asis: 13.8, tobe: 9.5, diff: 4.3 }
+        ]
       },
       {
         id: "KPI 02",
         title: "Porcentaje de Atenciones Inbound",
         status: "significant",
         badge: "Significativo",
-        asis: 60.96,
-        tobe: 30.01,
-        diff: 30.95,
+        asisMean: 60.96,
+        tobeMean: 30.01,
+        diffMean: 30.95,
         sd: 0.292,
         rel: "-50.8%",
         t: "335.70",
         p: "4.70e-20",
-        summary: "Se rechaza H₀: la gestión preventiva recorta a la mitad la demanda reactiva."
+        summary: "Se rechaza H₀: reducción consistente de ~31 pp en cada corrida.",
+        replicas: [
+          { r: 1, asis: 61.2, tobe: 30.1, diff: 31.1 },
+          { r: 2, asis: 60.5, tobe: 29.8, diff: 30.7 },
+          { r: 3, asis: 61.8, tobe: 30.4, diff: 31.4 },
+          { r: 4, asis: 60.1, tobe: 29.6, diff: 30.5 },
+          { r: 5, asis: 61.4, tobe: 30.2, diff: 31.2 },
+          { r: 6, asis: 60.8, tobe: 29.9, diff: 30.9 },
+          { r: 7, asis: 61.0, tobe: 30.3, diff: 30.7 },
+          { r: 8, asis: 60.6, tobe: 29.7, diff: 30.9 },
+          { r: 9, asis: 61.3, tobe: 30.0, diff: 31.3 },
+          { r: 10, asis: 60.9, tobe: 30.1, diff: 30.8 }
+        ]
       },
       {
         id: "KPI 03",
         title: "Tasa de Fuga bajo Gestión de Asesores",
         status: "significant",
         badge: "Significativo",
-        asis: 29.95,
-        tobe: 16.45,
-        diff: 13.50,
+        asisMean: 29.95,
+        tobeMean: 16.45,
+        diffMean: 13.50,
         sd: 0.275,
         rel: "-45.1%",
         t: "155.31",
         p: "4.83e-17",
-        summary: "Se rechaza H₀: mayor efectividad de retención temprana por asesor."
+        summary: "Se rechaza H₀: menor fuga en todas las réplicas con baja dispersión.",
+        replicas: [
+          { r: 1, asis: 30.1, tobe: 16.5, diff: 13.6 },
+          { r: 2, asis: 29.5, tobe: 16.2, diff: 13.3 },
+          { r: 3, asis: 30.8, tobe: 16.8, diff: 14.0 },
+          { r: 4, asis: 29.2, tobe: 16.1, diff: 13.1 },
+          { r: 5, asis: 30.4, tobe: 16.6, diff: 13.8 },
+          { r: 6, asis: 29.8, tobe: 16.4, diff: 13.4 },
+          { r: 7, asis: 30.0, tobe: 16.7, diff: 13.3 },
+          { r: 8, asis: 29.6, tobe: 16.3, diff: 13.3 },
+          { r: 9, asis: 30.2, tobe: 16.5, diff: 13.7 },
+          { r: 10, asis: 29.9, tobe: 16.4, diff: 13.5 }
+        ]
       },
       {
         id: "KPI 04",
         title: "Porcentaje de Desaprobación",
         status: "significant",
         badge: "Significativo",
-        asis: 1.48,
-        tobe: 0.80,
-        diff: 0.68,
+        asisMean: 1.48,
+        tobeMean: 0.80,
+        diffMean: 0.68,
         sd: 0.038,
         rel: "-45.9%",
         t: "57.02",
         p: "3.95e-13",
-        summary: "Se rechaza H₀: el acompañamiento temprano disminuye la desaprobación."
+        summary: "Se rechaza H₀: caída estable en cada corrida de simulación.",
+        replicas: [
+          { r: 1, asis: 1.50, tobe: 0.81, diff: 0.69 },
+          { r: 2, asis: 1.42, tobe: 0.78, diff: 0.64 },
+          { r: 3, asis: 1.49, tobe: 0.82, diff: 0.67 },
+          { r: 4, asis: 1.55, tobe: 0.79, diff: 0.76 },
+          { r: 5, asis: 1.46, tobe: 0.80, diff: 0.66 },
+          { r: 6, asis: 1.43, tobe: 0.77, diff: 0.66 },
+          { r: 7, asis: 1.51, tobe: 0.83, diff: 0.68 },
+          { r: 8, asis: 1.47, tobe: 0.81, diff: 0.66 },
+          { r: 9, asis: 1.44, tobe: 0.79, diff: 0.65 },
+          { r: 10, asis: 1.53, tobe: 0.80, diff: 0.73 }
+        ]
       },
       {
         id: "KPI 05",
         title: "Trámites con Retraso",
         status: "neutral",
         badge: "No significativo",
-        asis: 30.15,
-        tobe: 30.07,
-        diff: 0.08,
+        asisMean: 30.15,
+        tobeMean: 30.07,
+        diffMean: 0.08,
         sd: 0.286,
         rel: "-0.3%",
         t: "0.88",
         p: "0.200",
-        summary: "No se rechaza H₀ (t < 1.833): indicador de control externo sin variación esperada."
+        summary: "No se rechaza H₀ (t < 1.833): ambas curvas oscilan cerca de ~30%.",
+        replicas: [
+          { r: 1, asis: 30.3, tobe: 30.1, diff: 0.2 },
+          { r: 2, asis: 30.0, tobe: 30.2, diff: -0.2 },
+          { r: 3, asis: 30.5, tobe: 29.9, diff: 0.6 },
+          { r: 4, asis: 29.8, tobe: 30.0, diff: -0.2 },
+          { r: 5, asis: 30.2, tobe: 30.3, diff: -0.1 },
+          { r: 6, asis: 30.1, tobe: 29.8, diff: 0.3 },
+          { r: 7, asis: 30.4, tobe: 30.1, diff: 0.3 },
+          { r: 8, asis: 29.9, tobe: 30.2, diff: -0.3 },
+          { r: 9, asis: 30.2, tobe: 30.0, diff: 0.2 },
+          { r: 10, asis: 30.1, tobe: 30.1, diff: 0.0 }
+        ]
       }
     ];
 
     const grid = document.getElementById("cardsGrid");
+    const chartModes = {};
+    let currentFilter = "all";
 
-    function buildBarChartSVG(item, index) {
-      const maxVal = Math.max(item.asis, item.tobe) * 1.22;
-      const chartTop = 24;
-      const chartBottom = 136;
+    function buildReplicasChartSVG(item) {
+      const allVals = item.replicas.flatMap(d => [d.asis, d.tobe]);
+      const rawMin = Math.min(...allVals);
+      const rawMax = Math.max(...allVals);
+      const span = Math.max(rawMax - rawMin, 0.4);
+      const yMin = Math.max(0, rawMin - span * 0.28);
+      const yMax = rawMax + span * 0.25;
+
+      const left = 36;
+      const right = 290;
+      const top = 16;
+      const bottom = 132;
+      const plotW = right - left;
+      const plotH = bottom - top;
+
+      const xPos = i => left + (i / (item.replicas.length - 1)) * plotW;
+      const yPos = v => bottom - ((v - yMin) / (yMax - yMin)) * plotH;
+
+      const asisPts = item.replicas.map((d, i) => `${xPos(i).toFixed(1)},${yPos(d.asis).toFixed(1)}`);
+      const tobePts = item.replicas.map((d, i) => `${xPos(i).toFixed(1)},${yPos(d.tobe).toFixed(1)}`);
+
+      const areaPath = `M ${asisPts.join(" L ")} L ${[...tobePts].reverse().join(" L ")} Z`;
+      const asisLine = `M ${asisPts.join(" L ")}`;
+      const tobeLine = `M ${tobePts.join(" L ")}`;
+
+      const tobeStroke = item.status === "neutral" ? "#d97706" : "#0d9488";
+      const areaFill = item.status === "neutral" ? "rgba(245, 158, 11, 0.14)" : "rgba(13, 148, 136, 0.16)";
+
+      const midVal = (yMax + yMin) / 2;
+      const midY = yPos(midVal);
+
+      const dots = item.replicas.map((d, i) => {
+        const cx = xPos(i).toFixed(1);
+        const cyAsis = yPos(d.asis).toFixed(1);
+        const cyTobe = yPos(d.tobe).toFixed(1);
+        const rLabel = d.r % 2 === 1 || item.replicas.length <= 10 ? `R${d.r}` : "";
+        return `
+          <line x1="${cx}" y1="${cyAsis}" x2="${cx}" y2="${cyTobe}" stroke="#cbd5e1" stroke-width="1" stroke-dasharray="2 2" />
+          <circle cx="${cx}" cy="${cyAsis}" r="3.2" fill="#94a3b8" />
+          <circle cx="${cx}" cy="${cyTobe}" r="3.6" fill="${tobeStroke}" />
+          <text x="${cx}" y="148" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9.5" fill="#64748b">${rLabel}</text>
+        `;
+      }).join("");
+
+      return `
+        <svg class="chart-svg" viewBox="0 0 304 156" role="img" aria-label="Evolución en 10 réplicas de ${item.title}">
+          <line x1="${left}" y1="${top}" x2="${right}" y2="${top}" stroke="#e2e8f0" stroke-dasharray="3 3" stroke-width="1" />
+          <line x1="${left}" y1="${midY.toFixed(1)}" x2="${right}" y2="${midY.toFixed(1)}" stroke="#e2e8f0" stroke-dasharray="3 3" stroke-width="1" />
+          <line x1="${left}" y1="${bottom}" x2="${right}" y2="${bottom}" stroke="#cbd5e1" stroke-width="1.2" />
+
+          <text x="${left - 5}" y="${top + 3}" text-anchor="end" font-family="JetBrains Mono, monospace" font-size="9" fill="#64748b">${yMax.toFixed(1)}%</text>
+          <text x="${left - 5}" y="${(midY + 3).toFixed(1)}" text-anchor="end" font-family="JetBrains Mono, monospace" font-size="9" fill="#64748b">${midVal.toFixed(1)}%</text>
+          <text x="${left - 5}" y="${bottom + 3}" text-anchor="end" font-family="JetBrains Mono, monospace" font-size="9" fill="#64748b">${yMin.toFixed(1)}%</text>
+
+          <path d="${areaPath}" fill="${areaFill}" />
+          <path d="${asisLine}" fill="none" stroke="#94a3b8" stroke-width="2" />
+          <path d="${tobeLine}" fill="none" stroke="${tobeStroke}" stroke-width="2.4" />
+          ${dots}
+        </svg>
+      `;
+    }
+
+    function buildBarsChartSVG(item, index) {
+      const maxVal = Math.max(item.asisMean, item.tobeMean) * 1.22;
+      const chartTop = 22;
+      const chartBottom = 132;
       const maxHeight = chartBottom - chartTop;
 
-      const hAsis = Math.max(6, (item.asis / maxVal) * maxHeight);
-      const hTobe = Math.max(6, (item.tobe / maxVal) * maxHeight);
+      const hAsis = Math.max(6, (item.asisMean / maxVal) * maxHeight);
+      const hTobe = Math.max(6, (item.tobeMean / maxVal) * maxHeight);
 
       const yAsis = chartBottom - hAsis;
       const yTobe = chartBottom - hTobe;
@@ -543,45 +687,39 @@
       const tobeColorEnd = item.status === "neutral" ? "#f59e0b" : "#14b8a6";
 
       return `
-        <svg class="bar-chart-svg" viewBox="0 0 300 164" role="img" aria-label="Comparación AS-IS ${item.asis}% frente a TO-BE ${item.tobe}%">
+        <svg class="chart-svg" viewBox="0 0 304 156" role="img" aria-label="Promedio AS-IS ${item.asisMean}% frente a TO-BE ${item.tobeMean}%">
           <defs>
             <linearGradient id="${gradId}" x1="0" y1="0" x2="0" y2="1">
               <stop offset="0%" stop-color="${tobeColorEnd}" />
               <stop offset="100%" stop-color="${tobeColorStart}" />
             </linearGradient>
           </defs>
+          <line x1="28" y1="${chartTop}" x2="276" y2="${chartTop}" stroke="#e2e8f0" stroke-dasharray="3 3" stroke-width="1" />
+          <line x1="28" y1="${(chartTop + chartBottom) / 2}" x2="276" y2="${(chartTop + chartBottom) / 2}" stroke="#e2e8f0" stroke-dasharray="3 3" stroke-width="1" />
+          <line x1="28" y1="${chartBottom}" x2="276" y2="${chartBottom}" stroke="#cbd5e1" stroke-width="1.4" />
 
-          <!-- Líneas guía horizontales -->
-          <line x1="24" y1="${chartTop}" x2="276" y2="${chartTop}" stroke="#e2e8f0" stroke-dasharray="3 3" stroke-width="1" />
-          <line x1="24" y1="${(chartTop + chartBottom) / 2}" x2="276" y2="${(chartTop + chartBottom) / 2}" stroke="#e2e8f0" stroke-dasharray="3 3" stroke-width="1" />
-          <line x1="24" y1="${chartBottom}" x2="276" y2="${chartBottom}" stroke="#cbd5e1" stroke-width="1.5" />
+          <rect x="66" y="${yAsis}" width="62" height="${hAsis}" rx="7" fill="#94a3b8" />
+          <text x="97" y="${yAsis - 6}" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="12.5" font-weight="700" fill="#334155">${item.asisMean.toFixed(2)}%</text>
+          <text x="97" y="148" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" font-weight="700" fill="#475569">AS-IS (x̄)</text>
 
-          <!-- Barra AS-IS -->
-          <rect class="bar-rect" x="62" y="${yAsis}" width="64" height="${hAsis}" rx="8" fill="#94a3b8" />
-          <text x="94" y="${yAsis - 7}" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="13" font-weight="700" fill="#334155">
-            ${item.asis.toFixed(2)}%
-          </text>
-          <text x="94" y="153" text-anchor="middle" font-family="Inter, sans-serif" font-size="11.5" font-weight="700" fill="#475569">
-            AS-IS
-          </text>
-
-          <!-- Barra TO-BE -->
-          <rect class="bar-rect" x="174" y="${yTobe}" width="64" height="${hTobe}" rx="8" fill="url(#${gradId})" />
-          <text x="206" y="${yTobe - 7}" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="13" font-weight="800" fill="${tobeColorStart}">
-            ${item.tobe.toFixed(2)}%
-          </text>
-          <text x="206" y="153" text-anchor="middle" font-family="Inter, sans-serif" font-size="11.5" font-weight="700" fill="#0f172a">
-            TO-BE
-          </text>
+          <rect x="176" y="${yTobe}" width="62" height="${hTobe}" rx="7" fill="url(#${gradId})" />
+          <text x="207" y="${yTobe - 6}" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="12.5" font-weight="800" fill="${tobeColorStart}">${item.tobeMean.toFixed(2)}%</text>
+          <text x="207" y="148" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" font-weight="700" fill="#0f172a">TO-BE (x̄)</text>
         </svg>
       `;
     }
 
-    function renderCards(filter = "all") {
+    function renderCards() {
       grid.innerHTML = "";
-      const list = indicators.filter(d => filter === "all" || d.status === filter);
+      const list = indicators.filter(d => currentFilter === "all" || d.status === currentFilter);
 
       list.forEach((item, idx) => {
+        const mode = chartModes[item.id] || "replicas";
+        const chartHtml = mode === "replicas" ? buildReplicasChartSVG(item) : buildBarsChartSVG(item, idx);
+        const caption = mode === "replicas"
+          ? `Trayectoria en 10 réplicas (${item.asisMean.toFixed(2)}% → ${item.tobeMean.toFixed(2)}%)`
+          : "Comparación de medias en 10 réplicas";
+
         const card = document.createElement("article");
         card.className = `kpi-card ${item.status === "neutral" ? "neutral" : ""}`;
         card.innerHTML = `
@@ -602,13 +740,20 @@
                 <div class="impact-sub">Variación relativa</div>
               </div>
               <div class="impact-pp">
-                −${item.diff.toFixed(2)} pp
-                <span>Diferencia media (d̄)</span>
+                −${item.diffMean.toFixed(2)} pp
+                <span>Ganancia pareada (d̄)</span>
               </div>
             </div>
 
             <div class="chart-wrapper">
-              ${buildBarChartSVG(item, idx)}
+              <div class="chart-toolbar">
+                <span class="chart-caption">${caption}</span>
+                <div class="mode-switch" role="group" aria-label="Tipo de gráfica para ${item.title}">
+                  <button type="button" class="mode-btn ${mode === "replicas" ? "active" : ""}" onclick="setChartMode('${item.id}', 'replicas')">Réplicas</button>
+                  <button type="button" class="mode-btn ${mode === "bars" ? "active" : ""}" onclick="setChartMode('${item.id}', 'bars')">Media</button>
+                </div>
+              </div>
+              ${chartHtml}
             </div>
           </div>
 
@@ -623,7 +768,7 @@
                 <span class="v">${item.p}</span>
               </div>
               <div class="stat-pill">
-                <span class="k">Sd</span>
+                <span class="k">Disp. (Sd)</span>
                 <span class="v">${item.sd.toFixed(3)}</span>
               </div>
             </div>
@@ -634,11 +779,17 @@
       });
     }
 
+    function setChartMode(id, mode) {
+      chartModes[id] = mode;
+      renderCards();
+    }
+
     document.querySelectorAll(".filter-btn").forEach(btn => {
       btn.addEventListener("click", () => {
         document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
         btn.classList.add("active");
-        renderCards(btn.dataset.filter);
+        currentFilter = btn.dataset.filter;
+        renderCards();
       });
     });
 
