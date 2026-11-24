@@ -44,11 +44,11 @@
       background-size: 20px 20px;
       color: var(--slate-900);
       line-height: 1.45;
-      padding: 2rem 1.25rem 3rem;
+      padding: 2.5rem 2rem 3.5rem;
     }
 
     .poster-container {
-      max-width: 1260px;
+      max-width: 1340px;
       margin: 0 auto;
     }
 
@@ -60,7 +60,7 @@
       box-shadow: var(--shadow-lg);
       position: relative;
       overflow: hidden;
-      margin-bottom: 1.35rem;
+      margin-bottom: 1.6rem;
       display: flex;
       flex-wrap: wrap;
       justify-content: space-between;
@@ -94,7 +94,7 @@
       font-weight: 800;
       line-height: 1.18;
       letter-spacing: -0.02em;
-      max-width: 760px;
+      max-width: 780px;
     }
 
     .header-meta-box {
@@ -121,7 +121,7 @@
       border: 1px solid var(--slate-200);
       border-radius: 14px;
       padding: 0.85rem 1.25rem;
-      margin-bottom: 1.5rem;
+      margin-bottom: 1.75rem;
       display: flex;
       flex-wrap: wrap;
       justify-content: space-between;
@@ -195,15 +195,24 @@
 
     .cards-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(365px, 1fr));
-      gap: 1.35rem;
+      grid-template-columns: repeat(auto-fit, minmax(460px, 1fr));
+      gap: 1.75rem;
+    }
+
+    @media (max-width: 520px) {
+      body {
+        padding: 1.5rem 1rem 2.5rem;
+      }
+      .cards-grid {
+        grid-template-columns: 1fr;
+      }
     }
 
     .kpi-card {
       background: var(--bg-card);
       border: 1px solid var(--slate-200);
       border-radius: 18px;
-      padding: 1.45rem;
+      padding: 1.55rem;
       box-shadow: var(--shadow-md);
       display: flex;
       flex-direction: column;
@@ -253,7 +262,7 @@
     }
 
     .kpi-title {
-      font-size: 1.05rem;
+      font-size: 1.08rem;
       font-weight: 700;
       color: var(--slate-900);
       line-height: 1.28;
@@ -286,7 +295,7 @@
       border: 1px solid #99f6e4;
       border-radius: 12px;
       padding: 0.75rem 1rem;
-      margin-bottom: 0.9rem;
+      margin-bottom: 1rem;
     }
 
     .kpi-card.neutral .impact-strip {
@@ -328,57 +337,45 @@
       color: var(--slate-500);
     }
 
-    .chart-wrapper {
-      background: var(--slate-100);
-      border: 1px solid var(--slate-200);
-      border-radius: 12px;
-      padding: 0.65rem 0.75rem 0.55rem;
+    /* Panel Dual Lado a Lado: Réplicas (Izq.) + Media (Der.) */
+    .dual-charts-grid {
+      display: grid;
+      grid-template-columns: 1.38fr 1fr;
+      gap: 0.75rem;
       margin-bottom: 1rem;
     }
 
-    .chart-toolbar {
+    @media (max-width: 620px) {
+      .dual-charts-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .chart-panel {
+      background: var(--slate-100);
+      border: 1px solid var(--slate-200);
+      border-radius: 12px;
+      padding: 0.65rem 0.7rem 0.5rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .chart-panel-title {
+      font-size: 0.68rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--slate-500);
+      margin-bottom: 0.35rem;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      gap: 0.5rem;
-      margin-bottom: 0.45rem;
-    }
-
-    .chart-caption {
-      font-size: 0.7rem;
-      font-weight: 600;
-      color: var(--slate-500);
-    }
-
-    .mode-switch {
-      display: inline-flex;
-      background: #e2e8f0;
-      padding: 2px;
-      border-radius: 7px;
-    }
-
-    .mode-btn {
-      border: none;
-      background: transparent;
-      color: var(--slate-700);
-      font-family: 'Inter', sans-serif;
-      font-size: 0.68rem;
-      font-weight: 700;
-      padding: 0.22rem 0.5rem;
-      border-radius: 5px;
-      cursor: pointer;
-      transition: all 0.15s ease;
-    }
-
-    .mode-btn.active {
-      background: #ffffff;
-      color: var(--navy-900);
-      box-shadow: 0 1px 2px rgba(15, 23, 42, 0.08);
     }
 
     .chart-svg {
       width: 100%;
-      height: 162px;
+      height: 154px;
       display: block;
       overflow: visible;
     }
@@ -428,9 +425,9 @@
     @media print {
       body {
         background: #ffffff;
-        padding: 0;
+        padding: 1.5rem;
       }
-      .filter-controls, .mode-switch {
+      .filter-controls {
         display: none;
       }
       .kpi-card {
@@ -445,7 +442,7 @@
     <header class="poster-header">
       <div>
         <div class="header-kicker">PUCP · Mejora de Procesos (1IND55) · Grupo 28 · FlexSim</div>
-        <h1 class="poster-title">Validación por Réplicas de Simulación: AS-IS vs. TO-BE</h1>
+        <h1 class="poster-title">Validación Estadística en FlexSim: Réplicas y Media (AS-IS vs. TO-BE)</h1>
       </div>
       <div class="header-meta-box">
         <span class="meta-tag">FlexSim · n = 10 réplicas</span>
@@ -605,10 +602,8 @@
     ];
 
     const grid = document.getElementById("cardsGrid");
-    const chartModes = {};
-    let currentFilter = "all";
 
-    function buildReplicasChartSVG(item) {
+    function buildReplicasSVG(item) {
       const allVals = item.replicas.flatMap(d => [d.asis, d.tobe]);
       const rawMin = Math.min(...allVals);
       const rawMax = Math.max(...allVals);
@@ -616,10 +611,10 @@
       const yMin = Math.max(0, rawMin - span * 0.28);
       const yMax = rawMax + span * 0.25;
 
-      const left = 36;
-      const right = 290;
-      const top = 16;
-      const bottom = 132;
+      const left = 34;
+      const right = 236;
+      const top = 14;
+      const bottom = 126;
       const plotW = right - left;
       const plotH = bottom - top;
 
@@ -635,45 +630,44 @@
 
       const tobeStroke = item.status === "neutral" ? "#d97706" : "#0d9488";
       const areaFill = item.status === "neutral" ? "rgba(245, 158, 11, 0.14)" : "rgba(13, 148, 136, 0.16)";
-
       const midVal = (yMax + yMin) / 2;
       const midY = yPos(midVal);
 
-      const dots = item.replicas.map((d, i) => {
+      const pointsAndTicks = item.replicas.map((d, i) => {
         const cx = xPos(i).toFixed(1);
         const cyAsis = yPos(d.asis).toFixed(1);
         const cyTobe = yPos(d.tobe).toFixed(1);
-        const rLabel = d.r % 2 === 1 || item.replicas.length <= 10 ? `R${d.r}` : "";
+        const rLabel = d.r % 2 === 1 ? `R${d.r}` : "";
         return `
-          <line x1="${cx}" y1="${cyAsis}" x2="${cx}" y2="${cyTobe}" stroke="#cbd5e1" stroke-width="1" stroke-dasharray="2 2" />
-          <circle cx="${cx}" cy="${cyAsis}" r="3.2" fill="#94a3b8" />
-          <circle cx="${cx}" cy="${cyTobe}" r="3.6" fill="${tobeStroke}" />
-          <text x="${cx}" y="148" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9.5" fill="#64748b">${rLabel}</text>
+          <line x1="${cx}" y1="${cyAsis}" x2="${cx}" y2="${cyTobe}" stroke="#cbd5e1" stroke-width="0.9" stroke-dasharray="2 2" />
+          <circle cx="${cx}" cy="${cyAsis}" r="2.8" fill="#94a3b8" />
+          <circle cx="${cx}" cy="${cyTobe}" r="3.2" fill="${tobeStroke}" />
+          <text x="${cx}" y="142" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="8.5" fill="#64748b">${rLabel}</text>
         `;
       }).join("");
 
       return `
-        <svg class="chart-svg" viewBox="0 0 304 156" role="img" aria-label="Evolución en 10 réplicas de ${item.title}">
+        <svg class="chart-svg" viewBox="0 0 244 150" role="img" aria-label="10 réplicas de ${item.title}">
           <line x1="${left}" y1="${top}" x2="${right}" y2="${top}" stroke="#e2e8f0" stroke-dasharray="3 3" stroke-width="1" />
           <line x1="${left}" y1="${midY.toFixed(1)}" x2="${right}" y2="${midY.toFixed(1)}" stroke="#e2e8f0" stroke-dasharray="3 3" stroke-width="1" />
           <line x1="${left}" y1="${bottom}" x2="${right}" y2="${bottom}" stroke="#cbd5e1" stroke-width="1.2" />
 
-          <text x="${left - 5}" y="${top + 3}" text-anchor="end" font-family="JetBrains Mono, monospace" font-size="9" fill="#64748b">${yMax.toFixed(1)}%</text>
-          <text x="${left - 5}" y="${(midY + 3).toFixed(1)}" text-anchor="end" font-family="JetBrains Mono, monospace" font-size="9" fill="#64748b">${midVal.toFixed(1)}%</text>
-          <text x="${left - 5}" y="${bottom + 3}" text-anchor="end" font-family="JetBrains Mono, monospace" font-size="9" fill="#64748b">${yMin.toFixed(1)}%</text>
+          <text x="${left - 4}" y="${top + 3}" text-anchor="end" font-family="JetBrains Mono, monospace" font-size="8.5" fill="#64748b">${yMax.toFixed(1)}%</text>
+          <text x="${left - 4}" y="${(midY + 3).toFixed(1)}" text-anchor="end" font-family="JetBrains Mono, monospace" font-size="8.5" fill="#64748b">${midVal.toFixed(1)}%</text>
+          <text x="${left - 4}" y="${bottom + 3}" text-anchor="end" font-family="JetBrains Mono, monospace" font-size="8.5" fill="#64748b">${yMin.toFixed(1)}%</text>
 
           <path d="${areaPath}" fill="${areaFill}" />
-          <path d="${asisLine}" fill="none" stroke="#94a3b8" stroke-width="2" />
-          <path d="${tobeLine}" fill="none" stroke="${tobeStroke}" stroke-width="2.4" />
-          ${dots}
+          <path d="${asisLine}" fill="none" stroke="#94a3b8" stroke-width="1.9" />
+          <path d="${tobeLine}" fill="none" stroke="${tobeStroke}" stroke-width="2.2" />
+          ${pointsAndTicks}
         </svg>
       `;
     }
 
-    function buildBarsChartSVG(item, index) {
-      const maxVal = Math.max(item.asisMean, item.tobeMean) * 1.22;
-      const chartTop = 22;
-      const chartBottom = 132;
+    function buildMeanBarsSVG(item, index) {
+      const maxVal = Math.max(item.asisMean, item.tobeMean) * 1.24;
+      const chartTop = 20;
+      const chartBottom = 126;
       const maxHeight = chartBottom - chartTop;
 
       const hAsis = Math.max(6, (item.asisMean / maxVal) * maxHeight);
@@ -682,44 +676,39 @@
       const yAsis = chartBottom - hAsis;
       const yTobe = chartBottom - hTobe;
 
-      const gradId = `grad-${index}`;
+      const gradId = `mean-grad-${index}`;
       const tobeColorStart = item.status === "neutral" ? "#d97706" : "#0f766e";
       const tobeColorEnd = item.status === "neutral" ? "#f59e0b" : "#14b8a6";
 
       return `
-        <svg class="chart-svg" viewBox="0 0 304 156" role="img" aria-label="Promedio AS-IS ${item.asisMean}% frente a TO-BE ${item.tobeMean}%">
+        <svg class="chart-svg" viewBox="0 0 180 150" role="img" aria-label="Media AS-IS ${item.asisMean}% frente a TO-BE ${item.tobeMean}%">
           <defs>
             <linearGradient id="${gradId}" x1="0" y1="0" x2="0" y2="1">
               <stop offset="0%" stop-color="${tobeColorEnd}" />
               <stop offset="100%" stop-color="${tobeColorStart}" />
             </linearGradient>
           </defs>
-          <line x1="28" y1="${chartTop}" x2="276" y2="${chartTop}" stroke="#e2e8f0" stroke-dasharray="3 3" stroke-width="1" />
-          <line x1="28" y1="${(chartTop + chartBottom) / 2}" x2="276" y2="${(chartTop + chartBottom) / 2}" stroke="#e2e8f0" stroke-dasharray="3 3" stroke-width="1" />
-          <line x1="28" y1="${chartBottom}" x2="276" y2="${chartBottom}" stroke="#cbd5e1" stroke-width="1.4" />
 
-          <rect x="66" y="${yAsis}" width="62" height="${hAsis}" rx="7" fill="#94a3b8" />
-          <text x="97" y="${yAsis - 6}" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="12.5" font-weight="700" fill="#334155">${item.asisMean.toFixed(2)}%</text>
-          <text x="97" y="148" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" font-weight="700" fill="#475569">AS-IS (x̄)</text>
+          <line x1="14" y1="${chartTop}" x2="166" y2="${chartTop}" stroke="#e2e8f0" stroke-dasharray="3 3" stroke-width="1" />
+          <line x1="14" y1="${(chartTop + chartBottom) / 2}" x2="166" y2="${(chartTop + chartBottom) / 2}" stroke="#e2e8f0" stroke-dasharray="3 3" stroke-width="1" />
+          <line x1="14" y1="${chartBottom}" x2="166" y2="${chartBottom}" stroke="#cbd5e1" stroke-width="1.2" />
 
-          <rect x="176" y="${yTobe}" width="62" height="${hTobe}" rx="7" fill="url(#${gradId})" />
-          <text x="207" y="${yTobe - 6}" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="12.5" font-weight="800" fill="${tobeColorStart}">${item.tobeMean.toFixed(2)}%</text>
-          <text x="207" y="148" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" font-weight="700" fill="#0f172a">TO-BE (x̄)</text>
+          <rect x="30" y="${yAsis}" width="42" height="${hAsis}" rx="6" fill="#94a3b8" />
+          <text x="51" y="${yAsis - 5}" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10.5" font-weight="700" fill="#334155">${item.asisMean.toFixed(2)}%</text>
+          <text x="51" y="142" text-anchor="middle" font-family="Inter, sans-serif" font-size="9.5" font-weight="700" fill="#475569">AS-IS</text>
+
+          <rect x="108" y="${yTobe}" width="42" height="${hTobe}" rx="6" fill="url(#${gradId})" />
+          <text x="129" y="${yTobe - 5}" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10.5" font-weight="800" fill="${tobeColorStart}">${item.tobeMean.toFixed(2)}%</text>
+          <text x="129" y="142" text-anchor="middle" font-family="Inter, sans-serif" font-size="9.5" font-weight="700" fill="#0f172a">TO-BE</text>
         </svg>
       `;
     }
 
-    function renderCards() {
+    function renderCards(filter = "all") {
       grid.innerHTML = "";
-      const list = indicators.filter(d => currentFilter === "all" || d.status === currentFilter);
+      const list = indicators.filter(d => filter === "all" || d.status === filter);
 
       list.forEach((item, idx) => {
-        const mode = chartModes[item.id] || "replicas";
-        const chartHtml = mode === "replicas" ? buildReplicasChartSVG(item) : buildBarsChartSVG(item, idx);
-        const caption = mode === "replicas"
-          ? `Trayectoria en 10 réplicas (${item.asisMean.toFixed(2)}% → ${item.tobeMean.toFixed(2)}%)`
-          : "Comparación de medias en 10 réplicas";
-
         const card = document.createElement("article");
         card.className = `kpi-card ${item.status === "neutral" ? "neutral" : ""}`;
         card.innerHTML = `
@@ -745,15 +734,20 @@
               </div>
             </div>
 
-            <div class="chart-wrapper">
-              <div class="chart-toolbar">
-                <span class="chart-caption">${caption}</span>
-                <div class="mode-switch" role="group" aria-label="Tipo de gráfica para ${item.title}">
-                  <button type="button" class="mode-btn ${mode === "replicas" ? "active" : ""}" onclick="setChartMode('${item.id}', 'replicas')">Réplicas</button>
-                  <button type="button" class="mode-btn ${mode === "bars" ? "active" : ""}" onclick="setChartMode('${item.id}', 'bars')">Media</button>
+            <div class="dual-charts-grid">
+              <div class="chart-panel">
+                <div class="chart-panel-title">
+                  <span>Réplicas (R1–R10)</span>
                 </div>
+                ${buildReplicasSVG(item)}
               </div>
-              ${chartHtml}
+
+              <div class="chart-panel">
+                <div class="chart-panel-title">
+                  <span>Media (10 corridas)</span>
+                </div>
+                ${buildMeanBarsSVG(item, idx)}
+              </div>
             </div>
           </div>
 
@@ -779,17 +773,11 @@
       });
     }
 
-    function setChartMode(id, mode) {
-      chartModes[id] = mode;
-      renderCards();
-    }
-
     document.querySelectorAll(".filter-btn").forEach(btn => {
       btn.addEventListener("click", () => {
         document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
         btn.classList.add("active");
-        currentFilter = btn.dataset.filter;
-        renderCards();
+        renderCards(btn.dataset.filter);
       });
     });
 
