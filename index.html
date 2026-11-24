@@ -337,7 +337,6 @@
       color: var(--slate-500);
     }
 
-    /* Panel Dual Lado a Lado: Réplicas (Izq.) + Media (Der.) */
     .dual-charts-grid {
       display: grid;
       grid-template-columns: 1.38fr 1fr;
@@ -397,7 +396,7 @@
 
     .stat-pill .k {
       display: block;
-      font-size: 0.66rem;
+      font-size: 0.65rem;
       font-weight: 600;
       color: var(--slate-500);
       text-transform: uppercase;
@@ -447,20 +446,20 @@
       <div class="header-meta-box">
         <span class="meta-tag">FlexSim · n = 10 réplicas</span>
         <span class="meta-tag">Prueba t-pareada</span>
-        <span class="meta-tag">α = 0.05 (t₀ = 1.833)</span>
+        <span class="meta-tag">α = 0.05 (gl = 9)</span>
       </div>
     </header>
 
     <section class="controls-bar" aria-label="Leyenda y filtros">
       <div class="legend-group">
         <span class="legend-item"><span class="swatch swatch-asis"></span>Base (AS-IS)</span>
-        <span class="legend-item"><span class="swatch swatch-tobe"></span>Propuesto (TO-BE · Significativo)</span>
-        <span class="legend-item"><span class="swatch swatch-neutral"></span>Propuesto (TO-BE · Sin cambio)</span>
+        <span class="legend-item"><span class="swatch swatch-tobe"></span>Propuesto (TO-BE · Variable significativa)</span>
+        <span class="legend-item"><span class="swatch swatch-neutral"></span>Propuesto (TO-BE · Variable no significativa)</span>
       </div>
       <div class="filter-controls" role="group" aria-label="Filtrar indicadores">
         <button class="filter-btn active" data-filter="all">Todos (5)</button>
-        <button class="filter-btn" data-filter="significant">Significativos (4)</button>
-        <button class="filter-btn" data-filter="neutral">Sin cambio (1)</button>
+        <button class="filter-btn" data-filter="significant">Variables significativas (4)</button>
+        <button class="filter-btn" data-filter="neutral">Variables no significativas (1)</button>
       </div>
     </section>
 
@@ -473,15 +472,15 @@
         id: "KPI 01",
         title: "Tasa de Deserción Intra-Ciclo",
         status: "significant",
-        badge: "Significativo",
+        badge: "Variable significativa",
         asisMean: 13.85,
         tobeMean: 9.46,
         diffMean: 4.39,
-        sd: 0.088,
         rel: "-31.7%",
         t: "158.55",
+        tCrit: "1.833",
         p: "4.02e-17",
-        summary: "Se rechaza H₀: TO-BE se mantiene por debajo de AS-IS en las 10 réplicas.",
+        summary: "Se rechaza H₀ (t > 1.833): TO-BE se mantiene por debajo de AS-IS en las 10 réplicas.",
         replicas: [
           { r: 1, asis: 13.9, tobe: 9.5, diff: 4.4 },
           { r: 2, asis: 13.7, tobe: 9.4, diff: 4.3 },
@@ -499,15 +498,15 @@
         id: "KPI 02",
         title: "Porcentaje de Atenciones Inbound",
         status: "significant",
-        badge: "Significativo",
+        badge: "Variable significativa",
         asisMean: 60.96,
         tobeMean: 30.01,
         diffMean: 30.95,
-        sd: 0.292,
         rel: "-50.8%",
         t: "335.70",
+        tCrit: "1.833",
         p: "4.70e-20",
-        summary: "Se rechaza H₀: reducción consistente de ~31 pp en cada corrida.",
+        summary: "Se rechaza H₀ (t > 1.833): reducción consistente de ~31 pp en cada corrida.",
         replicas: [
           { r: 1, asis: 61.2, tobe: 30.1, diff: 31.1 },
           { r: 2, asis: 60.5, tobe: 29.8, diff: 30.7 },
@@ -525,15 +524,15 @@
         id: "KPI 03",
         title: "Tasa de Fuga bajo Gestión de Asesores",
         status: "significant",
-        badge: "Significativo",
+        badge: "Variable significativa",
         asisMean: 29.95,
         tobeMean: 16.45,
         diffMean: 13.50,
-        sd: 0.275,
         rel: "-45.1%",
         t: "155.31",
+        tCrit: "1.833",
         p: "4.83e-17",
-        summary: "Se rechaza H₀: menor fuga en todas las réplicas con baja dispersión.",
+        summary: "Se rechaza H₀ (t > 1.833): menor fuga en todas las réplicas con baja dispersión.",
         replicas: [
           { r: 1, asis: 30.1, tobe: 16.5, diff: 13.6 },
           { r: 2, asis: 29.5, tobe: 16.2, diff: 13.3 },
@@ -551,15 +550,15 @@
         id: "KPI 04",
         title: "Porcentaje de Desaprobación",
         status: "significant",
-        badge: "Significativo",
+        badge: "Variable significativa",
         asisMean: 1.48,
         tobeMean: 0.80,
         diffMean: 0.68,
-        sd: 0.038,
         rel: "-45.9%",
         t: "57.02",
+        tCrit: "1.833",
         p: "3.95e-13",
-        summary: "Se rechaza H₀: caída estable en cada corrida de simulación.",
+        summary: "Se rechaza H₀ (t > 1.833): caída estable en cada corrida de simulación.",
         replicas: [
           { r: 1, asis: 1.50, tobe: 0.81, diff: 0.69 },
           { r: 2, asis: 1.42, tobe: 0.78, diff: 0.64 },
@@ -577,13 +576,13 @@
         id: "KPI 05",
         title: "Trámites con Retraso",
         status: "neutral",
-        badge: "No significativo",
+        badge: "Variable no significativa",
         asisMean: 30.15,
         tobeMean: 30.07,
         diffMean: 0.08,
-        sd: 0.286,
         rel: "-0.3%",
         t: "0.88",
+        tCrit: "1.833",
         p: "0.200",
         summary: "No se rechaza H₀ (t < 1.833): ambas curvas oscilan cerca de ~30%.",
         replicas: [
@@ -758,12 +757,12 @@
                 <span class="v">${item.t}</span>
               </div>
               <div class="stat-pill">
-                <span class="k">p-valor</span>
-                <span class="v">${item.p}</span>
+                <span class="k">t crítico</span>
+                <span class="v">${item.tCrit}</span>
               </div>
               <div class="stat-pill">
-                <span class="k">Disp. (Sd)</span>
-                <span class="v">${item.sd.toFixed(3)}</span>
+                <span class="k">p-valor</span>
+                <span class="v">${item.p}</span>
               </div>
             </div>
             <p class="conclusion-line">${item.summary}</p>
