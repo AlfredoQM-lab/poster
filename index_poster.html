@@ -1,0 +1,845 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Resultados y Validación Estadística | Mejora del Proceso de Retención Estudiantil</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg-page: #f1f5f9;
+      --bg-card: #ffffff;
+      --navy-900: #0f294a;
+      --navy-800: #173a66;
+      --navy-700: #1e4b82;
+      --teal-600: #0d9488;
+      --teal-100: #ccfbf1;
+      --teal-50: #f0fdfa;
+      --slate-900: #0f172a;
+      --slate-700: #334155;
+      --slate-600: #475569;
+      --slate-500: #64748b;
+      --slate-300: #cbd5e1;
+      --slate-200: #e2e8f0;
+      --slate-100: #f8fafc;
+      --rose-600: #e11d48;
+      --rose-100: #ffe4e6;
+      --amber-700: #b45309;
+      --amber-100: #fef3c7;
+      --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.06);
+      --shadow-md: 0 10px 25px -5px rgba(15, 23, 42, 0.07), 0 4px 10px -6px rgba(15, 23, 42, 0.04);
+      --shadow-lg: 0 20px 35px -10px rgba(15, 41, 74, 0.12);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: var(--bg-page);
+      background-image: radial-gradient(#cbd5e1 0.75px, transparent 0.75px);
+      background-size: 20px 20px;
+      color: var(--slate-900);
+      line-height: 1.5;
+      padding: 2rem 1.25rem 3.5rem;
+    }
+
+    .poster-container {
+      max-width: 1240px;
+      margin: 0 auto;
+    }
+
+    /* Encabezado estilo Póster Científico */
+    .poster-header {
+      background: linear-gradient(135deg, var(--navy-900) 0%, var(--navy-800) 65%, var(--navy-700) 100%);
+      color: #ffffff;
+      border-radius: 20px;
+      padding: 2.25rem 2.5rem;
+      box-shadow: var(--shadow-lg);
+      position: relative;
+      overflow: hidden;
+      margin-bottom: 1.75rem;
+    }
+
+    .poster-header::after {
+      content: "";
+      position: absolute;
+      top: -60px;
+      right: -60px;
+      width: 260px;
+      height: 260px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(13, 148, 136, 0.28) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .header-meta {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: #93c5fd;
+    }
+
+    .badge-group {
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: #ffffff;
+      padding: 0.3rem 0.85rem;
+      border-radius: 999px;
+      font-size: 0.75rem;
+    }
+
+    .poster-title {
+      font-size: clamp(1.45rem, 2.6vw, 2.05rem);
+      font-weight: 800;
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.65rem;
+      max-width: 960px;
+    }
+
+    .poster-subtitle {
+      font-size: 0.95rem;
+      color: #cbd5e1;
+      max-width: 860px;
+    }
+
+    /* Barra de contexto metodológico y filtros */
+    .toolbar {
+      background: var(--bg-card);
+      border: 1px solid var(--slate-200);
+      border-radius: 14px;
+      padding: 1rem 1.35rem;
+      margin-bottom: 1.75rem;
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .method-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      align-items: center;
+    }
+
+    .method-pill {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--slate-700);
+      background: var(--slate-100);
+      border: 1px solid var(--slate-200);
+      padding: 0.35rem 0.75rem;
+      border-radius: 8px;
+    }
+
+    .method-pill strong {
+      color: var(--navy-900);
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .filter-controls {
+      display: flex;
+      gap: 0.45rem;
+      flex-wrap: wrap;
+    }
+
+    .filter-btn {
+      border: 1px solid var(--slate-200);
+      background: #ffffff;
+      color: var(--slate-600);
+      font-family: inherit;
+      font-size: 0.8rem;
+      font-weight: 600;
+      padding: 0.42rem 0.9rem;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.18s ease;
+    }
+
+    .filter-btn:hover {
+      border-color: var(--navy-700);
+      color: var(--navy-900);
+    }
+
+    .filter-btn.active {
+      background: var(--navy-900);
+      border-color: var(--navy-900);
+      color: #ffffff;
+    }
+
+    /* Grid de Tarjetas */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+      gap: 1.4rem;
+    }
+
+    .kpi-card {
+      background: var(--bg-card);
+      border: 1px solid var(--slate-200);
+      border-radius: 18px;
+      padding: 1.5rem;
+      box-shadow: var(--shadow-md);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .kpi-card:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .kpi-card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 5px;
+      background: var(--teal-600);
+    }
+
+    .kpi-card.neutral::before {
+      background: #f59e0b;
+    }
+
+    .card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 0.75rem;
+      margin-bottom: 1.15rem;
+    }
+
+    .kpi-index {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--navy-700);
+      background: #eff6ff;
+      padding: 0.22rem 0.55rem;
+      border-radius: 6px;
+      display: inline-block;
+      margin-bottom: 0.4rem;
+    }
+
+    .kpi-title {
+      font-size: 1.08rem;
+      font-weight: 700;
+      color: var(--slate-900);
+      line-height: 1.3;
+    }
+
+    .status-badge {
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 0.3rem 0.7rem;
+      border-radius: 999px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .status-significant {
+      background: var(--teal-100);
+      color: #0f766e;
+    }
+
+    .status-neutral {
+      background: var(--amber-100);
+      color: var(--amber-700);
+    }
+
+    /* Bloque de Impacto Principal */
+    .impact-banner {
+      background: var(--slate-100);
+      border: 1px solid var(--slate-200);
+      border-radius: 12px;
+      padding: 0.9rem 1rem;
+      margin-bottom: 1.15rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+    }
+
+    .kpi-card:not(.neutral) .impact-banner {
+      background: var(--teal-50);
+      border-color: #99f6e4;
+    }
+
+    .delta-main {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .delta-label {
+      font-size: 0.72rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--slate-500);
+    }
+
+    .delta-value {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 1.65rem;
+      font-weight: 800;
+      color: var(--teal-600);
+      line-height: 1.15;
+    }
+
+    .kpi-card.neutral .delta-value {
+      color: var(--amber-700);
+    }
+
+    .rel-chip {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.82rem;
+      font-weight: 700;
+      padding: 0.35rem 0.65rem;
+      border-radius: 8px;
+      background: #ffffff;
+      color: var(--navy-900);
+      border: 1px solid var(--slate-200);
+      text-align: right;
+    }
+
+    .rel-chip span {
+      display: block;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.66rem;
+      font-weight: 500;
+      color: var(--slate-500);
+    }
+
+    /* Barras Comparativas AS-IS vs TO-BE */
+    .comparison-bars {
+      display: flex;
+      flex-direction: column;
+      gap: 0.7rem;
+      margin-bottom: 1.15rem;
+    }
+
+    .bar-row {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+
+    .bar-header {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+
+    .bar-header .scenario-name {
+      color: var(--slate-600);
+    }
+
+    .bar-header .scenario-val {
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 700;
+      color: var(--slate-900);
+    }
+
+    .bar-track {
+      width: 100%;
+      height: 10px;
+      background: var(--slate-200);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .bar-fill {
+      height: 100%;
+      border-radius: 999px;
+      transition: width 0.6s ease;
+    }
+
+    .bar-asis {
+      background: #94a3b8;
+    }
+
+    .bar-tobe {
+      background: linear-gradient(90deg, var(--navy-700), var(--teal-600));
+    }
+
+    .kpi-card.neutral .bar-tobe {
+      background: #f59e0b;
+    }
+
+    /* Grilla de Estadísticos t-pareada */
+    .stats-box {
+      border-top: 1px dashed var(--slate-300);
+      padding-top: 0.95rem;
+      margin-top: auto;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.5rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .stat-cell {
+      background: var(--slate-100);
+      border-radius: 8px;
+      padding: 0.45rem 0.55rem;
+      text-align: center;
+    }
+
+    .stat-cell .stat-k {
+      display: block;
+      font-size: 0.68rem;
+      font-weight: 600;
+      color: var(--slate-500);
+    }
+
+    .stat-cell .stat-v {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--navy-900);
+    }
+
+    .hypothesis-note {
+      font-size: 0.78rem;
+      color: var(--slate-600);
+      background: var(--slate-100);
+      padding: 0.55rem 0.75rem;
+      border-radius: 8px;
+      border-left: 3px solid var(--teal-600);
+    }
+
+    .kpi-card.neutral .hypothesis-note {
+      border-left-color: #f59e0b;
+    }
+
+    /* Botón desplegable de réplicas */
+    .replicas-toggle {
+      margin-top: 0.8rem;
+      width: 100%;
+      background: transparent;
+      border: 1px solid var(--slate-200);
+      border-radius: 8px;
+      padding: 0.45rem;
+      font-family: inherit;
+      font-size: 0.76rem;
+      font-weight: 600;
+      color: var(--navy-700);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.35rem;
+      transition: background 0.15s ease;
+    }
+
+    .replicas-toggle:hover {
+      background: var(--slate-100);
+    }
+
+    .replicas-panel {
+      display: none;
+      margin-top: 0.7rem;
+      overflow-x: auto;
+    }
+
+    .replicas-panel.open {
+      display: block;
+    }
+
+    .replicas-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      text-align: right;
+    }
+
+    .replicas-table th {
+      background: var(--navy-900);
+      color: #ffffff;
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      padding: 0.35rem 0.5rem;
+    }
+
+    .replicas-table th:first-child,
+    .replicas-table td:first-child {
+      text-align: center;
+    }
+
+    .replicas-table td {
+      padding: 0.3rem 0.5rem;
+      border-bottom: 1px solid var(--slate-200);
+      color: var(--slate-700);
+    }
+
+    .replicas-table tr:nth-child(even) td {
+      background: var(--slate-100);
+    }
+
+    /* Pie de Póster */
+    .poster-footer {
+      margin-top: 2rem;
+      background: var(--bg-card);
+      border: 1px solid var(--slate-200);
+      border-radius: 14px;
+      padding: 1.15rem 1.5rem;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      font-size: 0.8rem;
+      color: var(--slate-600);
+    }
+
+    .poster-footer strong {
+      color: var(--navy-900);
+    }
+
+    @media print {
+      body {
+        background: #ffffff;
+        padding: 0;
+      }
+      .toolbar, .replicas-toggle {
+        display: none;
+      }
+      .kpi-card {
+        break-inside: avoid;
+        box-shadow: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="poster-container">
+    <!-- Encabezado del Póster -->
+    <header class="poster-header">
+      <div class="header-meta">
+        <span>Pontificia Universidad Católica del Perú · Mejora de Procesos (1IND55)</span>
+        <span class="badge-group">Grupo 28 · Validación Simulación FlexSim</span>
+      </div>
+      <h1 class="poster-title">
+        Impacto Operativo y Validación Estadística: Modelo AS-IS vs. Propuesta TO-BE
+      </h1>
+      <p class="poster-subtitle">
+        Evaluación cuantitativa sobre 5 indicadores clave de retención estudiantil, carga inbound y gestión administrativa mediante pruebas <em>t</em>-pareadas de simulación discreta.
+      </p>
+    </header>
+
+    <!-- Barra Metodológica y Filtros -->
+    <section class="toolbar" aria-label="Parámetros estadísticos y filtros">
+      <div class="method-pills">
+        <span class="method-pill">Réplicas: <strong>n = 10</strong></span>
+        <span class="method-pill">Grados de libertad: <strong>gl = 9</strong></span>
+        <span class="method-pill">Significancia: <strong>α = 0.05</strong></span>
+        <span class="method-pill">t crítico (unilateral): <strong>1.833</strong></span>
+      </div>
+      <div class="filter-controls" role="group" aria-label="Filtrar indicadores">
+        <button class="filter-btn active" data-filter="all">Todos (5)</button>
+        <button class="filter-btn" data-filter="significant">Impacto Significativo (4)</button>
+        <button class="filter-btn" data-filter="neutral">Sin Cambio Significativo (1)</button>
+      </div>
+    </section>
+
+    <!-- Contenedor de Tarjetas KPI -->
+    <section class="cards-grid" id="cardsGrid"></section>
+
+    <!-- Pie de Página del Póster -->
+    <footer class="poster-footer">
+      <div>
+        <strong>Nota Metodológica:</strong> Los valores representan el promedio de 10 réplicas independientes por escenario. La diferencia se define como <em>d = AS-IS − TO-BE</em>.
+      </div>
+      <div>
+        <strong>Hallazgo clave:</strong> 4 de 5 indicadores muestran reducciones estadísticamente significativas (<em>p</em> &lt; 0.001).
+      </div>
+    </footer>
+  </main>
+
+  <script>
+    const indicators = [
+      {
+        id: "KPI 01",
+        title: "Tasa de Deserción Intra-Ciclo",
+        status: "significant",
+        statusLabel: "Significativo (p < 0.001)",
+        asisMean: 13.85,
+        tobeMean: 9.46,
+        diffMean: 4.39,
+        sdDiff: 0.088,
+        relChange: "-31.7%",
+        tStat: "158.55",
+        pValue: "4.02 × 10⁻¹⁷",
+        hypothesis: "Se rechaza H₀ (t = 158.55 > 1.833). Reducción sostenida de 4.39 puntos porcentuales en deserción dentro del ciclo.",
+        replicas: [
+          [1, 13.9, 9.5, 4.4],
+          [2, 13.7, 9.4, 4.3],
+          [3, 14.1, 9.6, 4.5],
+          [4, 13.6, 9.3, 4.3],
+          [5, 14.0, 9.5, 4.5],
+          [6, 13.8, 9.4, 4.4],
+          [7, 13.9, 9.6, 4.3],
+          [8, 13.7, 9.3, 4.4],
+          [9, 14.0, 9.5, 4.5],
+          [10, 13.8, 9.5, 4.3]
+        ]
+      },
+      {
+        id: "KPI 02",
+        title: "Porcentaje de Atenciones Inbound",
+        status: "significant",
+        statusLabel: "Significativo (p < 0.001)",
+        asisMean: 60.96,
+        tobeMean: 30.01,
+        diffMean: 30.95,
+        sdDiff: 0.292,
+        relChange: "-50.8%",
+        tStat: "335.70",
+        pValue: "4.70 × 10⁻²⁰",
+        hypothesis: "Se rechaza H₀ (t = 335.70 > 1.833). La propuesta recorta a más de la mitad la demanda reactiva entrante (−30.95 pp).",
+        replicas: [
+          [1, 61.2, 30.1, 31.1],
+          [2, 60.5, 29.8, 30.7],
+          [3, 61.8, 30.4, 31.4],
+          [4, 60.1, 29.6, 30.5],
+          [5, 61.4, 30.2, 31.2],
+          [6, 60.8, 29.9, 30.9],
+          [7, 61.0, 30.3, 30.7],
+          [8, 60.6, 29.7, 30.9],
+          [9, 61.3, 30.0, 31.3],
+          [10, 60.9, 30.1, 30.8]
+        ]
+      },
+      {
+        id: "KPI 03",
+        title: "Tasa de Fuga bajo Gestión de Asesores",
+        status: "significant",
+        statusLabel: "Significativo (p < 0.001)",
+        asisMean: 29.95,
+        tobeMean: 16.45,
+        diffMean: 13.50,
+        sdDiff: 0.275,
+        relChange: "-45.1%",
+        tStat: "155.31",
+        pValue: "4.83 × 10⁻¹⁷",
+        hypothesis: "Se rechaza H₀ (t = 155.31 > 1.833). Mayor efectividad de retención temprana, disminuyendo la fuga en 13.50 pp.",
+        replicas: [
+          [1, 30.1, 16.5, 13.6],
+          [2, 29.5, 16.2, 13.3],
+          [3, 30.8, 16.8, 14.0],
+          [4, 29.2, 16.1, 13.1],
+          [5, 30.4, 16.6, 13.8],
+          [6, 29.8, 16.4, 13.4],
+          [7, 30.0, 16.7, 13.3],
+          [8, 29.6, 16.3, 13.3],
+          [9, 30.2, 16.5, 13.7],
+          [10, 29.9, 16.4, 13.5]
+        ]
+      },
+      {
+        id: "KPI 04",
+        title: "Porcentaje de Desaprobación",
+        status: "significant",
+        statusLabel: "Significativo (p < 0.001)",
+        asisMean: 1.48,
+        tobeMean: 0.80,
+        diffMean: 0.68,
+        sdDiff: 0.038,
+        relChange: "-45.9%",
+        tStat: "57.02",
+        pValue: "3.95 × 10⁻¹³",
+        hypothesis: "Se rechaza H₀ (t = 57.02 > 1.833). El acompañamiento preventivo reduce la tasa de desaprobación casi a la mitad (−0.68 pp).",
+        replicas: [
+          [1, 1.50, 0.81, 0.69],
+          [2, 1.42, 0.78, 0.64],
+          [3, 1.49, 0.82, 0.67],
+          [4, 1.55, 0.79, 0.76],
+          [5, 1.46, 0.80, 0.66],
+          [6, 1.43, 0.77, 0.66],
+          [7, 1.51, 0.83, 0.68],
+          [8, 1.47, 0.81, 0.66],
+          [9, 1.44, 0.79, 0.65],
+          [10, 1.53, 0.80, 0.73]
+        ]
+      },
+      {
+        id: "KPI 05",
+        title: "Trámites con Retraso",
+        status: "neutral",
+        statusLabel: "No Significativo (p = 0.200)",
+        asisMean: 30.15,
+        tobeMean: 30.07,
+        diffMean: 0.08,
+        sdDiff: 0.286,
+        relChange: "-0.3%",
+        tStat: "0.88",
+        pValue: "0.200 (unil.)",
+        hypothesis: "No se rechaza H₀ (t = 0.88 < 1.833). Tal como plantea el modelo, el rediseño no altera los tiempos de trámites externos.",
+        replicas: [
+          [1, 30.3, 30.1, 0.2],
+          [2, 30.0, 30.2, -0.2],
+          [3, 30.5, 29.9, 0.6],
+          [4, 29.8, 30.0, -0.2],
+          [5, 30.2, 30.3, -0.1],
+          [6, 30.1, 29.8, 0.3],
+          [7, 30.4, 30.1, 0.3],
+          [8, 29.9, 30.2, -0.3],
+          [9, 30.2, 30.0, 0.2],
+          [10, 30.1, 30.1, 0.0]
+        ]
+      }
+    ];
+
+    const grid = document.getElementById("cardsGrid");
+
+    function renderCards(filter = "all") {
+      grid.innerHTML = "";
+      const filtered = indicators.filter(item => filter === "all" || item.status === filter);
+
+      filtered.forEach((item, idx) => {
+        const maxVal = Math.max(item.asisMean, item.tobeMean);
+        const asisWidth = 100;
+        const tobeWidth = Math.max(8, (item.tobeMean / maxVal) * 100);
+        const signPrefix = item.diffMean > 0 ? "−" : "";
+
+        const rowsHtml = item.replicas.map(r => `
+          <tr>
+            <td>${r[0]}</td>
+            <td>${r[1].toFixed(2)}%</td>
+            <td>${r[2].toFixed(2)}%</td>
+            <td>${r[3].toFixed(2)}</td>
+          </tr>
+        `).join("");
+
+        const card = document.createElement("article");
+        card.className = `kpi-card ${item.status === "neutral" ? "neutral" : ""}`;
+        card.innerHTML = `
+          <div>
+            <div class="card-top">
+              <div>
+                <span class="kpi-index">${item.id}</span>
+                <h2 class="kpi-title">${item.title}</h2>
+              </div>
+              <span class="status-badge ${item.status === "significant" ? "status-significant" : "status-neutral"}">
+                ${item.statusLabel}
+              </span>
+            </div>
+
+            <div class="impact-banner">
+              <div class="delta-main">
+                <span class="delta-label">Reducción Absoluta (d̄)</span>
+                <span class="delta-value">${signPrefix}${item.diffMean.toFixed(2)} pp</span>
+              </div>
+              <div class="rel-chip">
+                ${item.relChange}
+                <span>Variación relativa</span>
+              </div>
+            </div>
+
+            <div class="comparison-bars">
+              <div class="bar-row">
+                <div class="bar-header">
+                  <span class="scenario-name">Escenario Base (AS-IS)</span>
+                  <span class="scenario-val">${item.asisMean.toFixed(2)}%</span>
+                </div>
+                <div class="bar-track">
+                  <div class="bar-fill bar-asis" style="width: ${asisWidth}%"></div>
+                </div>
+              </div>
+
+              <div class="bar-row">
+                <div class="bar-header">
+                  <span class="scenario-name">Escenario Propuesto (TO-BE)</span>
+                  <span class="scenario-val">${item.tobeMean.toFixed(2)}%</span>
+                </div>
+                <div class="bar-track">
+                  <div class="bar-fill bar-tobe" style="width: ${tobeWidth}%"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="stats-box">
+            <div class="stats-grid">
+              <div class="stat-cell">
+                <span class="stat-k">Estadístico t</span>
+                <span class="stat-v">${item.tStat}</span>
+              </div>
+              <div class="stat-cell">
+                <span class="stat-k">p-valor</span>
+                <span class="stat-v">${item.pValue}</span>
+              </div>
+              <div class="stat-cell">
+                <span class="stat-k">Desv. Est. (Sd)</span>
+                <span class="stat-v">${item.sdDiff.toFixed(3)}</span>
+              </div>
+            </div>
+
+            <p class="hypothesis-note">${item.hypothesis}</p>
+
+            <button class="replicas-toggle" type="button" onclick="toggleReplicas(${idx}, this)">
+              Ver detalle de las 10 réplicas ▾
+            </button>
+            <div class="replicas-panel" id="replicas-${idx}">
+              <table class="replicas-table">
+                <thead>
+                  <tr>
+                    <th>Réplica</th>
+                    <th>AS-IS</th>
+                    <th>TO-BE</th>
+                    <th>Dif. (d)</th>
+                  </tr>
+                </thead>
+                <tbody>${rowsHtml}</tbody>
+              </table>
+            </div>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    function toggleReplicas(idx, btn) {
+      const panel = document.getElementById(`replicas-${idx}`);
+      const isOpen = panel.classList.toggle("open");
+      btn.textContent = isOpen ? "Ocultar detalle de réplicas ▴" : "Ver detalle de las 10 réplicas ▾";
+    }
+
+    document.querySelectorAll(".filter-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        renderCards(btn.dataset.filter);
+      });
+    });
+
+    renderCards();
+  </script>
+</body>
+</html>
